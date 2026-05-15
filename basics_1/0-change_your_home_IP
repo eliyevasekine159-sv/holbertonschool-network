@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Configures local IP resolution for localhost and facebook.com
-# hosts faylında localhost sətirini tam təhlükəsiz şəkildə 127.0.0.2 edirik
-sed -i 's/\b127\.0\.0\.1\b/127.0.0.2/g' /etc/hosts
+# Configures local IP resolution safely without sed -i lockups
+# hosts faylının daxilini oxuyub, dəyişikliyi yaddaşda edib birbaşa üzərinə yazırıq (sed -i işlətmirik)
+cat /etc/hosts | sed 's/\b127\.0\.0\.1\b/127.0.0.2/g' > /etc/hosts.tmp
+mv -f /etc/hosts.tmp /etc/hosts
 
 # facebook.com yönləndirməsini əlavə edirik (əgər yoxdursa)
 if ! grep -q "facebook.com" /etc/hosts; then
